@@ -1,3 +1,4 @@
+import 'package:firebase_login/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,10 +10,6 @@ void main() {
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Firebase LogIn'),
-      ),
-    );
+    return Wrapper();
   }
 }
