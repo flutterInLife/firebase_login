@@ -1,8 +1,12 @@
+import 'package:firebase_login/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignIn extends StatelessWidget {
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +23,37 @@ class SignIn extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                MaterialButton(
+                  elevation: 0,
+                  height: 55,
+                  minWidth: 240,
+                  color: Colors.white,
+                  onPressed: () async {
+                    dynamic result = await _auth.signInAnon();
+                    if(result==null) {
+                      print('Unsucessful');
+                    } else {
+                      print('Successful');
+                      print(result.uid);
+                    }
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  child: Container(
+                    width: 255,
+                    child: Center(
+                      child: Text(
+                        'Sign In Anonymously',
+                        style: GoogleFonts.rubik(
+                            textStyle:
+                            TextStyle(color: Colors.black, fontSize: 15)),
+                      ),
+                    ),
+                  ),
+                ), //Anonymous Sign In
+                SizedBox(
+                  height: 10,
+                ),
                 MaterialButton(
                   elevation: 0,
                   height: 55,
@@ -60,7 +95,7 @@ class SignIn extends StatelessWidget {
                   elevation: 0,
                   height: 55,
                   minWidth: 240,
-                  color: Colors.white,
+                  color: Color(0xff3C5998),
                   onPressed: () {},
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -84,7 +119,7 @@ class SignIn extends StatelessWidget {
                           'Sign In with Facebook',
                           style: GoogleFonts.rubik(
                               textStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15)),
+                                  TextStyle(color: Colors.white, fontSize: 15)),
                         ),
                       ],
                     ),
@@ -97,7 +132,7 @@ class SignIn extends StatelessWidget {
                   elevation: 0,
                   height: 55,
                   minWidth: 240,
-                  color: Colors.white,
+                  color: Colors.green,
                   onPressed: () {},
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -112,6 +147,7 @@ class SignIn extends StatelessWidget {
                           child: SvgPicture.asset(
                             'assets/phone-icon.svg',
                             fit: BoxFit.contain,
+                            color: Colors.white,
                           ),
                         ),
                         SizedBox(
@@ -121,7 +157,7 @@ class SignIn extends StatelessWidget {
                           'Sign In with Phone Number',
                           style: GoogleFonts.rubik(
                               textStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15)),
+                                  TextStyle(color: Colors.white, fontSize: 15)),
                         ),
                       ],
                     ),

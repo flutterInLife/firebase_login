@@ -1,7 +1,11 @@
+import 'package:firebase_login/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget {
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +27,9 @@ class Home extends StatelessWidget {
                 height: 55,
                 minWidth: 180,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () async {
+                  await _auth.signOut();
+                },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30))),
                 child: Container(
@@ -45,7 +51,6 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ), //Phone Sign In
-
             ],
           ),
         ),
