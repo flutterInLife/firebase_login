@@ -119,10 +119,16 @@ class _SignInState extends State<SignIn> {
                   height: 55,
                   minWidth: 240,
                   color: Color(0xff3C5998),
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       loadingFacebook = true;
                     });
+                    dynamic result = await _auth.signInWithFacebook();
+                    if(result==null) {
+                      setState(() {
+                        loadingFacebook = false;
+                      });
+                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
