@@ -1,11 +1,22 @@
+import 'package:firebase_login/loading.dart';
 import 'package:firebase_login/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
+
+  bool loading = false;
+  bool loadingGoogle = false;
+  bool loadingFacebook = false;
+  bool loadingPhone = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +40,15 @@ class SignIn extends StatelessWidget {
                   minWidth: 240,
                   color: Colors.white,
                   onPressed: () async {
+                    setState(() {
+                      loading = true;
+                    });
                     dynamic result = await _auth.signInAnon();
                     if(result==null) {
                       print('Unsucessful');
+                      setState(() {
+                        loading = false;
+                      });
                     } else {
                       print('Successful');
                       print(result.uid);
@@ -42,7 +59,7 @@ class SignIn extends StatelessWidget {
                   child: Container(
                     width: 255,
                     child: Center(
-                      child: Text(
+                      child: loading ? Loading() : Text(
                         'Sign In Anonymously',
                         style: GoogleFonts.rubik(
                             textStyle:
@@ -59,12 +76,16 @@ class SignIn extends StatelessWidget {
                   height: 55,
                   minWidth: 240,
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      loadingGoogle = true;
+                    });
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
                     width: 255,
-                    child: Row(
+                    child: loadingGoogle ? Loading() : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
@@ -82,7 +103,7 @@ class SignIn extends StatelessWidget {
                           'Sign In with Google',
                           style: GoogleFonts.rubik(
                               textStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15)),
+                              TextStyle(color: Colors.black, fontSize: 15)),
                         ),
                       ],
                     ),
@@ -96,12 +117,16 @@ class SignIn extends StatelessWidget {
                   height: 55,
                   minWidth: 240,
                   color: Color(0xff3C5998),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      loadingFacebook = true;
+                    });
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
                     width: 255,
-                    child: Row(
+                    child: loadingFacebook ? Loading() : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
@@ -119,7 +144,7 @@ class SignIn extends StatelessWidget {
                           'Sign In with Facebook',
                           style: GoogleFonts.rubik(
                               textStyle:
-                                  TextStyle(color: Colors.white, fontSize: 15)),
+                              TextStyle(color: Colors.white, fontSize: 15)),
                         ),
                       ],
                     ),
@@ -133,12 +158,16 @@ class SignIn extends StatelessWidget {
                   height: 55,
                   minWidth: 240,
                   color: Colors.green,
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      loadingPhone = true;
+                    });
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
                     width: 255,
-                    child: Row(
+                    child: loadingPhone ? Loading() : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
@@ -157,7 +186,7 @@ class SignIn extends StatelessWidget {
                           'Sign In with Phone Number',
                           style: GoogleFonts.rubik(
                               textStyle:
-                                  TextStyle(color: Colors.white, fontSize: 15)),
+                              TextStyle(color: Colors.white, fontSize: 15)),
                         ),
                       ],
                     ),
@@ -184,3 +213,4 @@ class SignIn extends StatelessWidget {
     );
   }
 }
+
