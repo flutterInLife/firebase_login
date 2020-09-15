@@ -45,13 +45,9 @@ class _SignInState extends State<SignIn> {
                     });
                     dynamic result = await _auth.signInAnon();
                     if(result==null) {
-                      print('Unsucessful');
                       setState(() {
                         loading = false;
                       });
-                    } else {
-                      print('Successful');
-                      print(result.uid);
                     }
                   },
                   shape: RoundedRectangleBorder(
@@ -76,10 +72,16 @@ class _SignInState extends State<SignIn> {
                   height: 55,
                   minWidth: 240,
                   color: Colors.white,
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       loadingGoogle = true;
                     });
+                    dynamic result = await _auth.signInWithGoogle();
+                    if(result==null) {
+                      setState(() {
+                        loadingGoogle = false;
+                      });
+                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),

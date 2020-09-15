@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_login/modals/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
 
@@ -38,6 +39,22 @@ class AuthService {
   }
 
   //Sign In with google
+  Future signInWithGoogle() async {
+    try {
+      GoogleSignInAccount account = await GoogleSignIn().signIn();
+      UserCredential credential = await _auth.signInWithCredential(
+        GoogleAuthProvider.credential(
+          idToken: (await account.authentication).idToken,
+          accessToken: (await account.authentication).accessToken,
+        )
+      );
+      User user = credential.user;
+      return _userFromUser(user);
+    } catch(e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   //Sign In with Facebook
 
