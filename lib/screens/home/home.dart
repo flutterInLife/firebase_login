@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget {
-
   final AuthService _auth = AuthService();
 
   @override
@@ -18,10 +17,14 @@ class Home extends StatelessWidget {
               Text(
                 'Welcome to the Home',
                 style: GoogleFonts.rubik(
-                    textStyle:
-                    TextStyle(color: Colors.black, fontSize: 33, fontWeight: FontWeight.w500)),
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 33,
+                        fontWeight: FontWeight.w500)),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               MaterialButton(
                 elevation: 0,
                 height: 55,
@@ -37,7 +40,10 @@ class Home extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(Icons.exit_to_app, size: 30,),
+                      Icon(
+                        Icons.exit_to_app,
+                        size: 30,
+                      ),
                       SizedBox(
                         width: 20,
                       ),
@@ -45,12 +51,13 @@ class Home extends StatelessWidget {
                         'Log Out',
                         style: GoogleFonts.rubik(
                             textStyle:
-                            TextStyle(color: Colors.black, fontSize: 15)),
+                                TextStyle(color: Colors.black, fontSize: 15)),
                       ),
                     ],
                   ),
                 ),
-              ), //Phone Sign In
+              ),
+              Container(), //Phone Sign In
             ],
           ),
         ),
