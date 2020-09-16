@@ -38,39 +38,6 @@ class _SignInState extends State<SignIn> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // MaterialButton(
-                //   elevation: 0,
-                //   height: 55,
-                //   minWidth: 240,
-                //   color: Colors.white,
-                //   onPressed: () async {
-                //     setState(() {
-                //       loading = true;
-                //     });
-                //     dynamic result = await _auth.signInAnon();
-                //     if(result==null) {
-                //       setState(() {
-                //         loading = false;
-                //       });
-                //     }
-                //   },
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.all(Radius.circular(30))),
-                //   child: Container(
-                //     width: 255,
-                //     child: Center(
-                //       child: loading ? Loading() : Text(
-                //         'Sign In Anonymously',
-                //         style: GoogleFonts.rubik(
-                //             textStyle:
-                //             TextStyle(color: Colors.black, fontSize: 15)),
-                //       ),
-                //     ),
-                //   ),
-                // ), //Anonymous Sign In
-                SizedBox(
-                  height: 10,
-                ),
                 MaterialButton(
                   elevation: 0,
                   height: 55,
@@ -95,8 +62,8 @@ class _SignInState extends State<SignIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 30,
-                          width: 30,
+                          height: 25,
+                          width: 25,
                           child: SvgPicture.asset(
                             'assets/google-icon.svg',
                             fit: BoxFit.contain,
@@ -166,16 +133,17 @@ class _SignInState extends State<SignIn> {
                   height: 30,
                 ) : SizedBox(),
                 signInPhone ? Container(
-                  height: 55,
                   width: 285,
                   child: TextField(
                       controller: _phoneController,
                       cursorColor: Color(0xff003893),
                       autofocus: true,
+                      style: TextStyle(fontSize: 19),
                       decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
                           hintText: 'Phone Number',
+                          hintStyle: TextStyle(fontSize: 15),
                           contentPadding: EdgeInsets.only(left: 20,),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -193,39 +161,32 @@ class _SignInState extends State<SignIn> {
                 signInPhone ? MaterialButton(
                   elevation: 0,
                   height: 55,
-                  minWidth: 240,
+                  minWidth: 155,
                   color: Colors.green,
                   onPressed: () async {
+                    final phoneNumber = _phoneController.text.trim();
                     setState(() {
                       loadingPhone = true;
                     });
-                    final phoneNumber = _phoneController.text.trim();
                     dynamic result = await _auth.signInWithPhone(phoneNumber, context);
+                    if(result==null) {
+                      setState(() {
+                        loadingPhone=false;
+                      });
+                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
-                    width: 255,
+                    width: 155,
                     child: loadingPhone ? Loading() : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          height: 30,
-                          width: 30,
-                          child: SvgPicture.asset(
-                            'assets/phone-icon.svg',
-                            fit: BoxFit.contain,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
                         Text(
-                          'Sign In with Phone Number',
+                          'Next',
                           style: GoogleFonts.rubik(
                               textStyle:
-                              TextStyle(color: Colors.white, fontSize: 12)),
+                              TextStyle(color: Colors.white, fontSize: 15)),
                         ),
                       ],
                     ),
@@ -248,8 +209,8 @@ class _SignInState extends State<SignIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 30,
-                          width: 30,
+                          height: 20,
+                          width: 20,
                           child: SvgPicture.asset(
                             'assets/phone-icon.svg',
                             fit: BoxFit.contain,
