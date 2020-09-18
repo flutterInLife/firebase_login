@@ -13,6 +13,8 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
 
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
   bool loading = false;
   bool loadingGoogle = false;
   bool loadingFacebook = false;
@@ -33,6 +35,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -188,7 +191,24 @@ class _SignInState extends State<SignIn> {
                             dynamic result =
                             await _auth.signInWithPhone(_phone, context);
                           } else {
-
+                            _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  elevation: 0,
+                                  duration: Duration(milliseconds: 800),
+                                  backgroundColor: Colors.red[700],
+                                  content: Text(
+                                      'Mobile Number not valid!',
+                                      style: GoogleFonts.rubik(
+                                        textStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            letterSpacing: 1
+                                        ),
+                                      )
+                                  ),
+                                )
+                            );
                           }
                         },
                         shape: RoundedRectangleBorder(
