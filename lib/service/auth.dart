@@ -99,6 +99,7 @@ class AuthService {
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
           showDialog(
+            barrierDismissible: false,
             context: contextSignIn,
             builder: (contextSignIn) {
               return AlertDialog(

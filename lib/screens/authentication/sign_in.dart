@@ -3,6 +3,7 @@ import 'package:firebase_login/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:international_phone_input/international_phone_input.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final AuthService _auth = AuthService();
 
   bool loading = false;
@@ -19,8 +19,16 @@ class _SignInState extends State<SignIn> {
   bool loadingPhone = false;
   bool signInPhone = false;
 
+  String _phone = "";
+
   final _phoneController = TextEditingController();
 
+  void onPhoneChanged(String number, String completeNumber, String isoCode) {
+    setState(() {
+      _phone=completeNumber;
+    });
+    print(_phone);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,7 @@ class _SignInState extends State<SignIn> {
                       loadingGoogle = true;
                     });
                     dynamic result = await _auth.signInWithGoogle();
-                    if(result==null) {
+                    if (result == null) {
                       setState(() {
                         loadingGoogle = false;
                       });
@@ -58,28 +66,30 @@ class _SignInState extends State<SignIn> {
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
                     width: 255,
-                    child: loadingGoogle ? Loading() : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 25,
-                          width: 25,
-                          child: SvgPicture.asset(
-                            'assets/google-icon.svg',
-                            fit: BoxFit.contain,
+                    child: loadingGoogle
+                        ? Loading()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 25,
+                                width: 25,
+                                child: SvgPicture.asset(
+                                  'assets/google-icon.svg',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Sign In with Google',
+                                style: GoogleFonts.rubik(
+                                    textStyle: TextStyle(
+                                        color: Colors.black, fontSize: 15)),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Sign In with Google',
-                          style: GoogleFonts.rubik(
-                              textStyle:
-                              TextStyle(color: Colors.black, fontSize: 15)),
-                        ),
-                      ],
-                    ),
                   ),
                 ), //Google Sign In
                 SizedBox(
@@ -95,7 +105,7 @@ class _SignInState extends State<SignIn> {
                       loadingFacebook = true;
                     });
                     dynamic result = await _auth.signInWithFacebook();
-                    if(result==null) {
+                    if (result == null) {
                       setState(() {
                         loadingFacebook = false;
                       });
@@ -105,131 +115,143 @@ class _SignInState extends State<SignIn> {
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Container(
                     width: 255,
-                    child: loadingFacebook ? Loading() : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 30,
-                          width: 30,
-                          child: SvgPicture.asset(
-                            'assets/facebook-icon.svg',
-                            fit: BoxFit.contain,
+                    child: loadingFacebook
+                        ? Loading()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 30,
+                                width: 30,
+                                child: SvgPicture.asset(
+                                  'assets/facebook-icon.svg',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Sign In with Facebook',
+                                style: GoogleFonts.rubik(
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 15)),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Sign In with Facebook',
-                          style: GoogleFonts.rubik(
-                              textStyle:
-                              TextStyle(color: Colors.white, fontSize: 15)),
-                        ),
-                      ],
-                    ),
                   ),
                 ), //facebook Sign In
-                signInPhone ? SizedBox(
-                  height: 30,
-                ) : SizedBox(),
-                signInPhone ? Container(
-                  width: 285,
-                  child: TextField(
-                      controller: _phoneController,
-                      cursorColor: Color(0xff003893),
-                      autofocus: true,
-                      style: TextStyle(fontSize: 19),
-                      decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          hintText: 'Phone Number',
-                          hintStyle: TextStyle(fontSize: 15),
-                          contentPadding: EdgeInsets.only(left: 20,),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none
+                signInPhone
+                    ? SizedBox(
+                        height: 30,
+                      )
+                    : SizedBox(),
+                signInPhone
+                    ? Container(
+                      color: Colors.green.withOpacity(0.6),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: InternationalPhoneInput(
+                          decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: 'Phone Number',
+                              hintStyle: TextStyle(fontSize: 15),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(30))
-                          )
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0, style: BorderStyle.none),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)))),
+                          initialSelection: 'NP',
+                          onPhoneNumberChange: onPhoneChanged,
+                        ),
                       ),
-                  ),
-                ) : SizedBox(),
+                    )
+                    : SizedBox(),
                 SizedBox(
                   height: 10,
                 ),
-                signInPhone ? MaterialButton(
-                  elevation: 0,
-                  height: 55,
-                  minWidth: 155,
-                  color: Colors.green,
-                  onPressed: () async {
-                    final phoneNumber = _phoneController.text.trim();
-                    setState(() {
-                      loadingPhone = true;
-                    });
-                    dynamic result = await _auth.signInWithPhone(phoneNumber, context);
-                    if(result==null) {
-                      setState(() {
-                        loadingPhone=false;
-                      });
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  child: Container(
-                    width: 155,
-                    child: loadingPhone ? Loading() : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Next',
-                          style: GoogleFonts.rubik(
-                              textStyle:
-                              TextStyle(color: Colors.white, fontSize: 15)),
+                signInPhone
+                    ? MaterialButton(
+                        elevation: 0,
+                        height: 55,
+                        minWidth: 155,
+                        color: Colors.green,
+                        onPressed: () async {
+                          if(_phone!="") {
+                            setState(() {
+                              loadingPhone = true;
+                            });
+                            dynamic result =
+                            await _auth.signInWithPhone(_phone, context);
+                          } else {
+
+                          }
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        child: Container(
+                          width: 155,
+                          child: loadingPhone
+                              ? Loading()
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Next',
+                                      style: GoogleFonts.rubik(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
+                                    ),
+                                  ],
+                                ),
                         ),
-                      ],
-                    ),
-                  ),
-                ) : MaterialButton(
-                  elevation: 0,
-                  height: 55,
-                  minWidth: 240,
-                  color: Colors.green,
-                  onPressed: () {
-                    setState(() {
-                      signInPhone = true;
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  child: Container(
-                    width: 255,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 20,
-                          width: 20,
-                          child: SvgPicture.asset(
-                            'assets/phone-icon.svg',
-                            fit: BoxFit.contain,
-                            color: Colors.white,
+                      )
+                    : MaterialButton(
+                        elevation: 0,
+                        height: 55,
+                        minWidth: 240,
+                        color: Colors.green,
+                        onPressed: () {
+                          setState(() {
+                            signInPhone = true;
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        child: Container(
+                          width: 255,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 20,
+                                width: 20,
+                                child: SvgPicture.asset(
+                                  'assets/phone-icon.svg',
+                                  fit: BoxFit.contain,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Sign In with Phone Number',
+                                style: GoogleFonts.rubik(
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 15)),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Sign In with Phone Number',
-                          style: GoogleFonts.rubik(
-                              textStyle:
-                              TextStyle(color: Colors.white, fontSize: 15)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ), //Phone Sign In
+                      ), //Phone Sign In
                 SizedBox(
                   height: 20,
                 ),
@@ -242,8 +264,10 @@ class _SignInState extends State<SignIn> {
               'Firebase Sign In',
               textAlign: TextAlign.center,
               style: GoogleFonts.rubik(
-                  textStyle:
-                  TextStyle(color: Colors.black, fontSize: 35,)),
+                  textStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 35,
+              )),
             ),
           )
         ],
@@ -251,4 +275,3 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
-
