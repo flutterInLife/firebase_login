@@ -1,3 +1,5 @@
+import 'package:firebase_login/location/location-loading.dart';
+import 'package:firebase_login/location/location-screen.dart';
 import 'package:firebase_login/modals/user.dart';
 import 'package:firebase_login/screens/authentication/sign_in.dart';
 import 'package:firebase_login/screens/home/home.dart';
@@ -13,7 +15,7 @@ class Wrapper extends StatelessWidget {
     if(user==null) {
       return SignIn();
     } else {
-      return Home();
+      return LoadingScreen();
     }
   }
 }
