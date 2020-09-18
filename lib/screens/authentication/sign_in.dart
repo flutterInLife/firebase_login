@@ -23,10 +23,9 @@ class _SignInState extends State<SignIn> {
 
   String _phone = "";
 
-  final _phoneController = TextEditingController();
-
   void onPhoneChanged(String number, String completeNumber, String isoCode) {
     setState(() {
+      loadingPhone = false;
       _phone=completeNumber;
     });
     print(_phone);
@@ -191,6 +190,9 @@ class _SignInState extends State<SignIn> {
                             dynamic result =
                             await _auth.signInWithPhone(_phone, context);
                           } else {
+                            setState(() {
+                              loadingPhone = false;
+                            });
                             _scaffoldKey.currentState.showSnackBar(
                                 SnackBar(
                                   behavior: SnackBarBehavior.floating,
